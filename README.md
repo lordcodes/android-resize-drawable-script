@@ -40,15 +40,15 @@ If a file with the same name is already stored at the location, it will be overw
 
 #### Options
 
-| Flag | Alternate version | Description                                 |
-| ---- | ----------------- | ------------------------------------------- |
-| -h   | --help            | Display this usage message                  |
-| -l   | --create-ldpi     | Generate LDPI image                         |
-|      | --xxhpi           | Change folder name to place XXHDPI image in |
-|      | --xhdpi           | Change folder name to place XHDPI image in  |
-|      | --hdpi            | Change folder name to place HDPI image in   |
-|      | --mdpi            | Change folder name to place MDPI image in   |
-|      | --ldpi            | Change folder name to place LDPI image in   |
+| Flag | Alternate version  | Description                                 |
+| ---- | ------------------ | ------------------------------------------- |
+| -h   | --help             | Display this usage message                  |
+| -l   | --create-ldpi      | Generate LDPI image                         |
+|      | --xxhdpi           | Change folder name to place XXHDPI image in |
+|      | --xhdpi            | Change folder name to place XHDPI image in  |
+|      | --hdpi             | Change folder name to place HDPI image in   |
+|      | --mdpi             | Change folder name to place MDPI image in   |
+|      | --ldpi             | Change folder name to place LDPI image in   |
 
 ###### Note:
 Default locations are:
