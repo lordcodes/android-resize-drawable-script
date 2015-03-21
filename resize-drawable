@@ -69,6 +69,16 @@ set_ldpi_folder() {
 }
 
 handle_filename() {
+  if [[ -z $FILENAME ]]; then
+    echo "
+  No file to resize was provided.
+
+  Run with -h or --help flags to print usage description
+  "
+
+    exit 1
+  fi
+
   FILE=`basename $FILENAME`
   FILEPATH=`dirname $FILENAME`
   FOLDER=`basename $FILEPATH`
@@ -191,13 +201,42 @@ perform_conversion() {
   fi
 }
 
+handle_config() {
+  if [[ -z $CONFIG_FILE ]]; then
+    CONFIG_FILE=default-config.cfg
+  fi
+
+  if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+
+    if [[ -z $CREATE_LDPI ]]; then
+      CREATE_LDPI=$CONFIG_CREATE_LDPI
+    fi
+
+    if [[ -z $XXHDPI_FOLDER ]]; then
+      XXHDPI_FOLDER=$CONFIG_XXHDPI_FOLDER
+    fi
+
+    if [[ -z $XHDPI_FOLDER ]]; then
+      XHDPI_FOLDER=$CONFIG_XHDPI_FOLDER
+    fi
+
+    if [[ -z $HDPI_FOLDER ]]; then
+      HDPI_FOLDER=$CONFIG_HDPI_FOLDER
+    fi
+
+    if [[ -z $MDPI_FOLDER ]]; then
+      MDPI_FOLDER=$CONFIG_MDPI_FOLDER
+    fi
+
+    if [[ -z $LDPI_FOLDER ]]; then
+      LDPI_FOLDER=$CONFIG_LDPI_FOLDER
+    fi
+  fi
+}
+
 
 # MAIN
-
-CONFIG_FILE=default-config.cfg
-if [[ -f $CONFIG_FILE ]]; then
-        . $CONFIG_FILE
-fi
 
 while [ $# -gt 0 ]; do
   if [ "$1" = "-h" ] || [ "$1" == "--help" ]; then
@@ -206,6 +245,9 @@ while [ $# -gt 0 ]; do
   elif [ "$1" == "-l" ] || [ "$1" == "--create-ldpi" ]; then
     CREATE_LDPI=1
     shift
+  elif [ "$1" == "-c" ] || [ "$1" == "--config" ]; then
+    CONFIG_FILE=$2
+    shift 2
   elif [ "$1" == "--xxhdpi" ] && [[ ! -z $2 ]]; then
     XXHDPI_FOLDER=$2
     shift 2
@@ -229,15 +271,7 @@ while [ $# -gt 0 ]; do
   fi
 done
 
-if [[ -z $FILENAME ]]; then
-  echo "
-No file to resize was provided.
-
-Run with -h or --help flags to print usage description
-"
-
-  exit 1
-fi
+handle_config
 
 handle_filename
 handle_conversion_ratio
