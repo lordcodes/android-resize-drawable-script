@@ -145,59 +145,59 @@ handle_conversion_ratio() {
   fi
 }
 
+convert_drawable() {
+  RES=$1
+  RES_FOLDER=$2
+  CONVERT_RATIO=$3
+  echo "$FILE to $RES in folder $RES_FOLDER ..."
+
+  DEST_FOLDER=$PARENT/$RES_FOLDER
+
+  if [[ $FOLDER_CREATION -eq 1 ]]; then
+    mkdir -p ${DEST_FOLDER}
+  fi
+
+  if [ -d "$DEST_FOLDER" ]; then
+    convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${CONVERT_RATIO}% -colorspace sRGB ${DEST_FOLDER}/${FILE}
+    echo "$RES done"
+  else
+    echo "$RES folder $RES_FOLDER does not exist and folder creation is disabled, so $RES skipped"
+  fi
+}
+
 perform_conversion() {
   if [[ $BASE_RATIO -ge XXXHDPI_RATIO ]]; then
     RATIO=$((100 * 3 / BASE_RATIO))
     if [ $RATIO -ne 100 ] ; then
-      echo "$FILE to xxhdpi in folder $XXHDPI_FOLDER ..."
-      DEST_FOLDER=${PARENT}/${XXHDPI_FOLDER}
-      mkdir -p ${DEST_FOLDER}
-      convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${RATIO}% -colorspace sRGB ${DEST_FOLDER}/${FILE}
-      echo "xxhdpi done"
+      convert_drawable "xxhdpi" $XXHDPI_FOLDER $RATIO
     fi
   fi
 
   if [[ $BASE_RATIO -ge XXHDPI_RATIO ]]; then
     RATIO=$((100 * 2 / BASE_RATIO))
     if [ $RATIO -ne 100 ] ; then
-      echo "$FILE to xhdpi in folder $XHDPI_FOLDER ..."
-      DEST_FOLDER=${PARENT}/${XHDPI_FOLDER}
-      mkdir -p ${DEST_FOLDER}
-      convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${RATIO}% -colorspace sRGB ${DEST_FOLDER}/${FILE}
-      echo "xhdpi done"
+      convert_drawable "xhdpi" $XHDPI_FOLDER $RATIO
     fi
   fi
 
   if [[ $BASE_RATIO -ge XHDPI_RATIO ]]; then
     RATIO=$((100 * 3 / (2 * BASE_RATIO)))
     if [ $RATIO -ne 100 ] ; then
-      echo "$FILE to hdpi in folder $HDPI_FOLDER ..."
-      DEST_FOLDER=${PARENT}/${HDPI_FOLDER}
-      mkdir -p ${DEST_FOLDER}
-      convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${RATIO}% -colorspace sRGB ${DEST_FOLDER}/${FILE}
-      echo "hdpi done"
+      convert_drawable "hdpi" $HDPI_FOLDER $RATIO
     fi
   fi
 
   if [[ $BASE_RATIO -ge HDPI_RATIO ]]; then
     RATIO=$((100 * 1 / BASE_RATIO))
     if [ $RATIO -ne 100 ] ; then
-      echo "$FILE to mdpi in folder $MDPI_FOLDER ..."
-      DEST_FOLDER=${PARENT}/${MDPI_FOLDER}
-      mkdir -p ${DEST_FOLDER}
-      convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${RATIO}% -colorspace sRGB ${DEST_FOLDER}/${FILE}
-      echo "mdpi done"
+      convert_drawable "mdpi" $MDPI_FOLDER $RATIO
     fi
   fi
 
   if [[ $CREATE_LDPI -eq 1 ]] && [[ $BASE_RATIO -ge MDPI_RATIO ]]; then
     RATIO=$((100 * 1 / (2 * BASE_RATIO)))
     if [ $RATIO -ne 100 ] ; then
-      echo "$FILE to ldpi in folder $LDPI_FOLDER ..."
-      DEST_FOLDER=${PARENT}/${LDPI_FOLDER}
-      mkdir -p ${DEST_FOLDER}
-      convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${RATIO}% -colorspace sRGB ${DEST_FOLDER}/${FILE}
-      echo "ldpi done"
+      convert_drawable "ldpi" $LDPI_FOLDER $RATIO
     fi
   fi
 }
@@ -212,6 +212,14 @@ handle_config() {
 
     if [[ -z $CREATE_LDPI ]]; then
       CREATE_LDPI=$CONFIG_CREATE_LDPI
+    fi
+
+    if [[ -z $OVERWRITE ]]; then
+      OVERWRITE=$CONFIG_OVERWRITE
+    fi
+
+    if [[ -z $FOLDER_CREATION ]]; then
+      FOLDER_CREATION=$CONFIG_FOLDER_CREATION
     fi
 
     if [[ -z $XXHDPI_FOLDER ]]; then
@@ -236,6 +244,16 @@ handle_config() {
   fi
 }
 
+handle_defaults() {
+  if [[ -z $OVERWRITE ]]; then
+    OVERWRITE=1
+  fi
+
+  if [[ -z $FOLDER_CREATION ]]; then
+    FOLDER_CREATION=1
+  fi
+}
+
 
 # MAIN
 
@@ -249,6 +267,12 @@ while [ $# -gt 0 ]; do
   elif [ "$1" == "-c" ] || [ "$1" == "--config" ]; then
     CONFIG_FILE=$2
     shift 2
+  elif [ "$1" == "-di" ] || [ "$1" == "--disable-overwrite" ]; then
+    OVERWRITE=0
+    shift
+  elif [ "$1" == "-df" ] || [ "$1" == "--disable-folder-creation" ]; then
+    FOLDER_CREATION=0
+    shift
   elif [ "$1" == "--xxhdpi" ] && [[ ! -z $2 ]]; then
     XXHDPI_FOLDER=$2
     shift 2
@@ -273,7 +297,7 @@ while [ $# -gt 0 ]; do
 done
 
 handle_config
-
+handle_defaults
 handle_filename
 handle_conversion_ratio
 perform_conversion
