@@ -21,7 +21,7 @@ The convert program is used to perform the image resizing. It can be downloaded 
 
 E.g. `resize-drawable drawable-xxxhdpi/image.png`
 
-#### Filename:
+### Filename:
 Path to an image file, that is stored within a folder containing a density specifer. The other resolutions will be placed into folders alongside it.
 
 E.g. If `/home/project/drawable-xxxhdpi/image.png` was provided, images would be placed at:
@@ -38,7 +38,7 @@ The script automatically detects if the provided file is stored within a `drawab
 ###### Note:
 If a file with the same name is already stored at the location, it will be overwritten. A flag will be added in a future update, to give you the option of disabling this behaviour.
 
-#### Options
+### Options
 
 | Flag | Alternate version  | Description                                 |
 | ---- | ------------------ | ------------------------------------------- |
@@ -59,3 +59,21 @@ Default locations are:
 - `drawable-mdpi` or `mipmap-mdpi`
 - `drawable-ldpi` or `mipmap-ldpi`
 
+### Config
+
+The various configuration options can also be provided through a config file. A default config file is included alongside the script.
+
+```
+CONFIG_CREATE_LDPI=0
+
+# Set custom folder names below
+# E.g. CONFIG_XXHDPI_FOLDER=xxhdpi_location
+
+CONFIG_XXHDPI_FOLDER=
+CONFIG_XHDPI_FOLDER=
+CONFIG_HDPI_FOLDER=
+CONFIG_MDPI_FOLDER=
+CONFIG_LDPI_FOLDER=
+```
+
+If a command-line argument is provided for the same setting, then it will override the value in the config file. This allows you to specify your default configuration and alter settings whenever you need to through command-line arguments.
