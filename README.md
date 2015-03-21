@@ -21,6 +21,9 @@ The convert program is used to perform the image resizing. It can be downloaded 
 
 E.g. `resize-drawable drawable-xxxhdpi/image.png`
 
+###### Note:
+If the file cannot be executed you may need to run `chmod +x resize.drawable`.
+
 ### Filename:
 Path to an image file, that is stored within a folder containing a density specifer. The other resolutions will be placed into folders alongside it.
 
