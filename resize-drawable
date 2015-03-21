@@ -152,16 +152,19 @@ convert_drawable() {
   echo "$FILE to $RES in folder $RES_FOLDER ..."
 
   DEST_FOLDER=$PARENT/$RES_FOLDER
+  FILE_LOCATION=$DEST_FOLDER/$FILE
 
   if [[ $FOLDER_CREATION -eq 1 ]]; then
     mkdir -p ${DEST_FOLDER}
   fi
 
-  if [ -d "$DEST_FOLDER" ]; then
-    convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${CONVERT_RATIO}% -colorspace sRGB ${DEST_FOLDER}/${FILE}
-    echo "$RES done"
-  else
+  if [ ! -d "$DEST_FOLDER" ]; then
     echo "$RES folder $RES_FOLDER does not exist and folder creation is disabled, so $RES skipped"
+  elif [[ $OVERWRITE -eq 0 ]] && [ -f "$FILE_LOCATION" ]; then
+    echo "$RES file $FILE already exists and file overwriting is disabled, so $RES skipped"
+  else
+    convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${CONVERT_RATIO}% -colorspace sRGB ${FILE_LOCATION}
+    echo "$RES done"
   fi
 }
 
