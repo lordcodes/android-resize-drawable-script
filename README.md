@@ -40,16 +40,18 @@ If a file with the same name is already stored at the location, it will be overw
 
 ### Options
 
-| Flag | Alternate version  | Description                                 |
-| ---- | ------------------ | ------------------------------------------- |
-| -h   | --help             | Display this usage message                  |
-| -c   | --config           | Specify config file location                |
-| -l   | --create-ldpi      | Generate LDPI image                         |
-|      | --xxhdpi           | Change folder name to place XXHDPI image in |
-|      | --xhdpi            | Change folder name to place XHDPI image in  |
-|      | --hdpi             | Change folder name to place HDPI image in   |
-|      | --mdpi             | Change folder name to place MDPI image in   |
-|      | --ldpi             | Change folder name to place LDPI image in   |
+| Flag | Alternate version         | Description                                 |
+| ---- | ------------------------- | ------------------------------------------- |
+| -h   | --help                    | Display this usage message                  |
+| -c   | --config                  | Specify config file location                |
+| -do  | --disable-overwrite       | Disable overwriting if image already exists |
+| -df  | --disable-folder-creation | Disable creating folder if it doesn't exit  |
+| -l   | --create-ldpi             | Generate LDPI image                         |
+|      | --xxhdpi                  | Change folder name to place XXHDPI image in |
+|      | --xhdpi                   | Change folder name to place XHDPI image in  |
+|      | --hdpi                    | Change folder name to place HDPI image in   |
+|      | --mdpi                    | Change folder name to place MDPI image in   |
+|      | --ldpi                    | Change folder name to place LDPI image in   |
 
 ###### Note:
 Default locations are:
@@ -65,10 +67,8 @@ The various configuration options can also be provided through a config file. A 
 
 ```
 CONFIG_CREATE_LDPI=0
-
-# Set custom folder names below
-# E.g. CONFIG_XXHDPI_FOLDER=xxhdpi_location
-
+CONFIG_OVERWRITE=1
+CONFIG_FOLDER_CREATION=1
 CONFIG_XXHDPI_FOLDER=
 CONFIG_XHDPI_FOLDER=
 CONFIG_HDPI_FOLDER=
