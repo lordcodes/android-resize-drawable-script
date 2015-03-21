@@ -24,6 +24,7 @@
 ## Options:
 ##
 ##   -h, --help              Display this usage message
+##   -c, --config            Specify config file location
 ##   -l, --create-ldpi       Generate an LDPI image. By default LDPI is skipped, as most tools no longer bother with LDPI anymore
 ##   --xxhdpi                Alter the folder to store a generated XXHDPI image at. Default is either drawable-xxhdpi or mipmap-xxhdpi
 ##   --xhdpi                 Alter the folder to store a generated XHDPI image at. Default is either drawable-xhdpi or mipmap-xhdpi
