@@ -2,6 +2,9 @@
 
 `resize-drawable` is a shell script that can save you time by converting Android drawables into lower resolution versions.
 
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VNDYLUZK5AYV4"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif"/></a>
+
 ## Requirements
 
 - Mac or Linux (Windows coming soon)
@@ -84,3 +87,8 @@ If a command-line argument is provided for the same setting, then it will overri
 ## Feedback
 
 If you notice any bugs or want to suggest any improvements, please create an issue. All feedback is welcome!
+
+If you have found the script useful and it has saved you some time, please don't hesitate to donate and support development.
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VNDYLUZK5AYV4"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif"/></a>
+
