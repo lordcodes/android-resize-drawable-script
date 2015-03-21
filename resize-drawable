@@ -24,7 +24,7 @@
 ## Options:
 ##
 ##   -h, --help              Display this usage message
-##   -l, --create-ldpi       An image for LDPI will be generated as well. By default LDPI is skipped, as most tools no longer bother with LDPI anymore
+##   -l, --create-ldpi       Generate an LDPI image. By default LDPI is skipped, as most tools no longer bother with LDPI anymore
 ##   --xxhdpi                Alter the folder to store a generated XXHDPI image at. Default is either drawable-xxhdpi or mipmap-xxhdpi
 ##   --xhdpi                 Alter the folder to store a generated XHDPI image at. Default is either drawable-xhdpi or mipmap-xhdpi
 ##   --hdpi                  Alter the folder to store a generated HDPI image at. Default is either drawable-hdpi or mipmap-hdpi
@@ -194,7 +194,10 @@ perform_conversion() {
 
 # MAIN
 
-CREATE_LDPI=0
+CONFIG_FILE=default-config.cfg
+if [[ -f $CONFIG_FILE ]]; then
+        . $CONFIG_FILE
+fi
 
 while [ $# -gt 0 ]; do
   if [ "$1" = "-h" ] || [ "$1" == "--help" ]; then
@@ -229,8 +232,9 @@ done
 if [[ -z $FILENAME ]]; then
   echo "
 No file to resize was provided.
+
+Run with -h or --help flags to print usage description
 "
-  usage
 
   exit 1
 fi
