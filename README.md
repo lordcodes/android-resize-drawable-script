@@ -77,3 +77,7 @@ CONFIG_LDPI_FOLDER=
 ```
 
 If a command-line argument is provided for the same setting, then it will override the value in the config file. This allows you to specify your default configuration and alter settings whenever you need to through command-line arguments.
+
+## Feedback
+
+If you notice any bugs or want to suggest any improvements, please create an issue. All feedback is welcome!
