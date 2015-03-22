@@ -42,24 +42,27 @@ By default, an LDPI version is not generated. This can be enabled using the `-l`
 The script automatically detects if the provided file is stored within a `drawable` or `mipmap` folder and places the other images in folders of the same type.
 
 ###### Note:
-If a file with the same name is already stored at the location, it will be overwritten. A flag will be added in a future update, to give you the option of disabling this behaviour.
+If a file with the same name is already stored at the location, it will be overwritten. You can use the `-do` or `--disable-overwrite` flag to disable this functionality.
+
+###### Note:
+If a folder doesn't exist to place one of the image sizes in, it will be created. You can use the `-df` or `--disable-folder-creation` flag to instead skip that size.
 
 ### Options
 
-| Flag | Alternate flag            | Argument                | Description                                 |
-| ---- | ------------------------- | ----------------------- | ------------------------------------------- |
-| -h   | --help                    |                         | Display this usage message                  |
-| -c   | --config                  | <file>                  | Specify config file location                |
-| -s   | --silence                 |                         | Run with no output (except errors)          |
-| -do  | --disable-overwrite       |                         | Disable overwriting if image already exists |
-| -df  | --disable-folder-creation |                         | Disable creating folder if it doesn't exit  |
-| -l   | --create-ldpi             |                         | Generate LDPI image                         |
-| -e   | --exclude                 | <density1,density2,...> |
-|      | --xxhdpi                  | <folder>                | Change folder name to place XXHDPI image in |
-|      | --xhdpi                   | <folder>                | Change folder name to place XHDPI image in  |
-|      | --hdpi                    | <folder>                | Change folder name to place HDPI image in   |
-|      | --mdpi                    | <folder>                | Change folder name to place MDPI image in   |
-|      | --ldpi                    | <folder>                | Change folder name to place LDPI image in   |
+| Flag | Alternate flag            | Argument                  | Description                                 |
+| ---- | ------------------------- | ------------------------- | ------------------------------------------- |
+| -h   | --help                    |                           | Display this usage message                  |
+| -c   | --config                  | \<file\>                  | Specify config file location                |
+| -s   | --silence                 |                           | Run with no output (except errors)          |
+| -do  | --disable-overwrite       |                           | Disable overwriting if image already exists |
+| -df  | --disable-folder-creation |                           | Disable creating folder if it doesn't exit  |
+| -l   | --create-ldpi             |                           | Generate LDPI image                         |
+| -e   | --exclude                 | \<density1,density2,...\> | Exclude densities from being resized        |
+|      | --xxhdpi                  | \<folder\>                | Change folder name to place XXHDPI image in |
+|      | --xhdpi                   | \<folder\>                | Change folder name to place XHDPI image in  |
+|      | --hdpi                    | \<folder\>                | Change folder name to place HDPI image in   |
+|      | --mdpi                    | \<folder\>                | Change folder name to place MDPI image in   |
+|      | --ldpi                    | \<folder\>                | Change folder name to place LDPI image in   |
 
 ###### Note:
 Default locations are:
@@ -72,18 +75,6 @@ Default locations are:
 ### Config
 
 The various configuration options can also be provided through a config file. A default config file is included alongside the script.
-
-```
-CONFIG_PRINT_OUTPUT=1
-CONFIG_CREATE_LDPI=0
-CONFIG_OVERWRITE=1
-CONFIG_FOLDER_CREATION=1
-CONFIG_XXHDPI_FOLDER=
-CONFIG_XHDPI_FOLDER=
-CONFIG_HDPI_FOLDER=
-CONFIG_MDPI_FOLDER=
-CONFIG_LDPI_FOLDER=
-```
 
 If a command-line argument is provided for the same setting, then it will override the value in the config file. This allows you to specify your default configuration and alter settings whenever you need to through command-line arguments.
 
