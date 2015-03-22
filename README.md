@@ -20,7 +20,7 @@ The convert program is used to perform the image resizing. It can be downloaded 
 
 ## Usage
 
-`resize-drawable [options] <filename> [options]`
+`resize-drawable [options] <filename1,filename2,...> [options]`
 
 E.g. `resize-drawable drawable-xxxhdpi/image.png`
 
