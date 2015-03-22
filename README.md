@@ -24,6 +24,10 @@ The convert program is used to perform the image resizing. It can be downloaded 
 
 E.g. `resize-drawable drawable-xxxhdpi/image.png`
 
+You can also provide a list of images to resize.
+
+E.g. `resize-drawable drawable-xxxhdpi/image.png,drawable-xxhdpi/another.png`
+
 ###### Note:
 If the file cannot be executed you may need to run `chmod +x resize.drawable`.
 
