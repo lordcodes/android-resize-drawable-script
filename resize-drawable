@@ -5,9 +5,9 @@
 ## Copyright (C) 2015 Andrew Lord - All Rights Reserved
 ## MIT License
 ##
-## Usage: resize-drawable [options] FILENAME
+## Usage: resize-drawable [options] <filename> [options]
 ##
-## FILENAME:
+## Filename:
 ##
 ##   Path to an Android image drawable. The other resolutions will be placed in folders alongisde it.
 ##
@@ -24,17 +24,18 @@
 ##
 ## Options:
 ##
-##   -h, --help                           Display this usage message
-##   -s, --silence                        Run with no output (except errors)
-##   -c, --config                         Specify config file location
-##   -do, --disable-overwrite             Disable overwriting if image with that name already exists
-##   -df, --disable-folder-creation       Disable creating folder if it doesn't exit
-##   -l, --create-ldpi                    Generate an LDPI image. By default LDPI is skipped, as most tools no longer bother with LDPI anymore
-##   --xxhdpi                             Alter the folder to store a generated XXHDPI image at. Default is either drawable-xxhdpi or mipmap-xxhdpi
-##   --xhdpi                              Alter the folder to store a generated XHDPI image at. Default is either drawable-xhdpi or mipmap-xhdpi
-##   --hdpi                               Alter the folder to store a generated HDPI image at. Default is either drawable-hdpi or mipmap-hdpi
-##   --mdpi                               Alter the folder to store a generated MDPI image at. Default is either drawable-mdpi or mipmap-mdpi
-##   --ldpi                               Alter the folder to store a generated LDPI image at. Default is either drawable-ldpi or mipmap-ldpi
+##   -h, --help                               Display this usage message
+##   -s, --silence                            Run with no output (except errors)
+##   -c, --config <file>                      Specify config file location
+##   -do, --disable-overwrite                 Disable overwriting if image with that name already exists
+##   -df, --disable-folder-creation           Disable creating folder if it doesn't exit
+##   -l, --create-ldpi                        Generate an LDPI image. By default LDPI is skipped, as most tools no longer bother with LDPI anymore
+##   -e, --exclude <density1,density2,...>    Exclude densities from conversions
+##   --xxhdpi <folder>                        Alter the folder to store a generated XXHDPI image at. Default is either drawable-xxhdpi or mipmap-xxhdpi
+##   --xhdpi <folder>                         Alter the folder to store a generated XHDPI image at. Default is either drawable-xhdpi or mipmap-xhdpi
+##   --hdpi <folder>                          Alter the folder to store a generated HDPI image at. Default is either drawable-hdpi or mipmap-hdpi
+##   --mdpi <folder>                          Alter the folder to store a generated MDPI image at. Default is either drawable-mdpi or mipmap-mdpi
+##   --ldpi <foler>                           Alter the folder to store a generated LDPI image at. Default is either drawable-ldpi or mipmap-ldpi
 ##
 
 usage() {
@@ -178,36 +179,46 @@ convert_drawable() {
   fi
 }
 
+should_convert() {
+  local density
+  for density in "${EXCLUDES[@]}"; do 
+    if [[ "$density" == "$1" ]]; then
+      return 1
+    fi
+  done
+  return 0
+}
+
 perform_conversion() {
-  if [[ $BASE_RATIO -ge XXXHDPI_RATIO ]]; then
+  if [[ $BASE_RATIO -ge XXXHDPI_RATIO ]] && should_convert "xxhdpi"; then
     RATIO=$((100 * 3 / BASE_RATIO))
     if [ $RATIO -ne 100 ] ; then
       convert_drawable "xxhdpi" $XXHDPI_FOLDER $RATIO
     fi
   fi
 
-  if [[ $BASE_RATIO -ge XXHDPI_RATIO ]]; then
+  if [[ $BASE_RATIO -ge XXHDPI_RATIO ]] && should_convert "xhdpi"; then
     RATIO=$((100 * 2 / BASE_RATIO))
     if [ $RATIO -ne 100 ] ; then
       convert_drawable "xhdpi" $XHDPI_FOLDER $RATIO
     fi
   fi
 
-  if [[ $BASE_RATIO -ge XHDPI_RATIO ]]; then
+  if [[ $BASE_RATIO -ge XHDPI_RATIO ]] && should_convert "hdpi"; then
     RATIO=$((100 * 3 / (2 * BASE_RATIO)))
     if [ $RATIO -ne 100 ] ; then
       convert_drawable "hdpi" $HDPI_FOLDER $RATIO
     fi
   fi
 
-  if [[ $BASE_RATIO -ge HDPI_RATIO ]]; then
+  if [[ $BASE_RATIO -ge HDPI_RATIO ]] && should_convert "mdpi"; then
     RATIO=$((100 * 1 / BASE_RATIO))
     if [ $RATIO -ne 100 ] ; then
       convert_drawable "mdpi" $MDPI_FOLDER $RATIO
     fi
   fi
 
-  if [[ $CREATE_LDPI -eq 1 ]] && [[ $BASE_RATIO -ge MDPI_RATIO ]]; then
+  if [[ $CREATE_LDPI -eq 1 ]] && [[ $BASE_RATIO -ge MDPI_RATIO ]] && should_convert "ldpi"; then
     RATIO=$((100 * 1 / (2 * BASE_RATIO)))
     if [ $RATIO -ne 100 ] ; then
       convert_drawable "ldpi" $LDPI_FOLDER $RATIO
@@ -237,6 +248,10 @@ handle_config() {
 
     if [[ -z $FOLDER_CREATION ]]; then
       FOLDER_CREATION=$CONFIG_FOLDER_CREATION
+    fi
+
+    if [[ -z $EXCLUDES ]]; then
+      EXCLUDES=(${CONFIG_EXCLUDES//,/ })
     fi
 
     if [[ -z $XXHDPI_FOLDER ]]; then
@@ -288,7 +303,10 @@ while [ $# -gt 0 ]; do
   elif [ "$1" == "-l" ] || [ "$1" == "--create-ldpi" ]; then
     CREATE_LDPI=1
     shift
-  elif [ "$1" == "-c" ] || [ "$1" == "--config" ]; then
+  elif [[ ! -z $2 ]] && ([ "$1" == "-e" ] || [ "$1" == "--exclude" ]); then
+    EXCLUDES=(${2//,/ })
+    shift 2
+  elif [[ ! -z $2 ]] && ([ "$1" == "-c" ] || [ "$1" == "--config" ]); then
     CONFIG_FILE=$2
     shift 2
   elif [ "$1" == "-do" ] || [ "$1" == "--disable-overwrite" ]; then
@@ -297,19 +315,19 @@ while [ $# -gt 0 ]; do
   elif [ "$1" == "-df" ] || [ "$1" == "--disable-folder-creation" ]; then
     FOLDER_CREATION=0
     shift
-  elif [ "$1" == "--xxhdpi" ] && [[ ! -z $2 ]]; then
+  elif [[ ! -z $2 ]] && ([ "$1" == "--xxhdpi" ] && [[ ! -z $2 ]]); then
     XXHDPI_FOLDER=$2
     shift 2
-  elif [ "$1" == "--xhdpi" ] && [[ ! -z $2 ]]; then
+  elif [[ ! -z $2 ]] && ([ "$1" == "--xhdpi" ] && [[ ! -z $2 ]]); then
     XHDPI_FOLDER=$2
     shift 2
-  elif [ "$1" == "--hdpi" ] && [[ ! -z $2 ]]; then
+  elif [[ ! -z $2 ]] && ([ "$1" == "--hdpi" ] && [[ ! -z $2 ]]); then
     HDPI_FOLDER=$2
     shift 2
-  elif [ "$1" == "--mdpi" ] && [[ ! -z $2 ]]; then
+  elif [[ ! -z $2 ]] && ([ "$1" == "--mdpi" ] && [[ ! -z $2 ]]); then
     MDPI_FOLDER=$2
     shift 2
-  elif [ "$1" == "--ldpi" ] && [[ ! -z $2 ]]; then
+  elif [[ ! -z $2 ]] && ([ "$1" == "--ldpi" ] && [[ ! -z $2 ]]); then
     LDPI_FOLDER=$2
     shift 2
   elif [[ ! -z $1 ]] && [[ -z $FILENAME ]]; then
