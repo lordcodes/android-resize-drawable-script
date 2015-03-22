@@ -73,18 +73,6 @@ Default locations are:
 
 The various configuration options can also be provided through a config file. A default config file is included alongside the script.
 
-```
-CONFIG_PRINT_OUTPUT=1
-CONFIG_CREATE_LDPI=0
-CONFIG_OVERWRITE=1
-CONFIG_FOLDER_CREATION=1
-CONFIG_XXHDPI_FOLDER=
-CONFIG_XHDPI_FOLDER=
-CONFIG_HDPI_FOLDER=
-CONFIG_MDPI_FOLDER=
-CONFIG_LDPI_FOLDER=
-```
-
 If a command-line argument is provided for the same setting, then it will override the value in the config file. This allows you to specify your default configuration and alter settings whenever you need to through command-line arguments.
 
 ## Feedback
