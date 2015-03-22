@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 ##
 ## Script to take an Android drawable and scale it down to produce the lower density versions.
 ##
@@ -30,7 +30,7 @@
 ##   -do, --disable-overwrite                 Disable overwriting if image with that name already exists
 ##   -df, --disable-folder-creation           Disable creating folder if it doesn't exit
 ##   -l, --create-ldpi                        Generate an LDPI image. By default LDPI is skipped, as most tools no longer bother with LDPI anymore
-##   -e, --exclude <density1,density2,...>    Exclude densities from conversions
+##   -e, --exclude <density1,density2,...>    Exclude densities from being resized
 ##   --xxhdpi <folder>                        Alter the folder to store a generated XXHDPI image at. Default is either drawable-xxhdpi or mipmap-xxhdpi
 ##   --xhdpi <folder>                         Alter the folder to store a generated XHDPI image at. Default is either drawable-xhdpi or mipmap-xhdpi
 ##   --hdpi <folder>                          Alter the folder to store a generated HDPI image at. Default is either drawable-hdpi or mipmap-hdpi
