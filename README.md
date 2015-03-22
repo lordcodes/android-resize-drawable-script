@@ -43,6 +43,7 @@ If a file with the same name is already stored at the location, it will be overw
 | Flag | Alternate version  | Description                                 |
 | ---- | ------------------ | ------------------------------------------- |
 | -h   | --help             | Display this usage message                  |
+| -s   | --silence          | Run with no output (except errors)          |
 | -c   | --config           | Specify config file location                |
 | -l   | --create-ldpi      | Generate LDPI image                         |
 |      | --xxhdpi           | Change folder name to place XXHDPI image in |

@@ -1,6 +1,7 @@
 #!/bin/sh
 ##
 ## Script to take an Android drawable and scale it down to produce the lower density versions.
+##
 ## Copyright (C) 2015 Andrew Lord - All Rights Reserved
 ## MIT License
 ##
@@ -24,6 +25,7 @@
 ## Options:
 ##
 ##   -h, --help                           Display this usage message
+##   -s, --silence                        Run with no output (except errors)
 ##   -c, --config                         Specify config file location
 ##   -do, --disable-overwrite             Disable overwriting if image with that name already exists
 ##   -df, --disable-folder-creation       Disable creating folder if it doesn't exit
@@ -147,11 +149,17 @@ handle_conversion_ratio() {
   fi
 }
 
+print_output() {
+  if [[ $PRINT_OUTPUT -eq 1 ]]; then
+    echo $1
+  fi
+}
+
 convert_drawable() {
   RES=$1
   RES_FOLDER=$2
   CONVERT_RATIO=$3
-  echo "$FILE to $RES in folder $RES_FOLDER ..."
+  print_output "$FILE to $RES in folder $RES_FOLDER ..."
 
   DEST_FOLDER=$PARENT/$RES_FOLDER
   FILE_LOCATION=$DEST_FOLDER/$FILE
@@ -161,12 +169,12 @@ convert_drawable() {
   fi
 
   if [ ! -d "$DEST_FOLDER" ]; then
-    echo "$RES folder $RES_FOLDER does not exist and folder creation is disabled, so $RES skipped"
+    print_output "$RES folder $RES_FOLDER does not exist and folder creation is disabled, so $RES skipped"
   elif [[ $OVERWRITE -eq 0 ]] && [ -f "$FILE_LOCATION" ]; then
-    echo "$RES file $FILE already exists and file overwriting is disabled, so $RES skipped"
+    print_output "$RES file $FILE already exists and file overwriting is disabled, so $RES skipped"
   else
     convert ${FILENAME} -sharpen 0x1 -colorspace RGB -resize ${CONVERT_RATIO}% -colorspace sRGB ${FILE_LOCATION}
-    echo "$RES done"
+    print_output "$RES done"
   fi
 }
 
@@ -215,6 +223,10 @@ handle_config() {
   if [[ -f $CONFIG_FILE ]]; then
     . $CONFIG_FILE
 
+    if [[ -z $PRINT_OUTPUT ]]; then
+      PRINT_OUTPUT=$CONFIG_PRINT_OUTPUT
+    fi
+
     if [[ -z $CREATE_LDPI ]]; then
       CREATE_LDPI=$CONFIG_CREATE_LDPI
     fi
@@ -250,6 +262,10 @@ handle_config() {
 }
 
 handle_defaults() {
+  if [[ -z $PRINT_OUTPUT ]]; then
+    PRINT_OUTPUT=1
+  fi
+
   if [[ -z $OVERWRITE ]]; then
     OVERWRITE=1
   fi
@@ -266,6 +282,9 @@ while [ $# -gt 0 ]; do
   if [ "$1" = "-h" ] || [ "$1" == "--help" ]; then
     usage
     exit 1
+  elif [ "$1" == "-s" ] || [ "$1" == "--silence" ]; then
+    PRINT_OUTPUT=0
+    shift
   elif [ "$1" == "-l" ] || [ "$1" == "--create-ldpi" ]; then
     CREATE_LDPI=1
     shift
