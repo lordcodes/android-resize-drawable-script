@@ -46,20 +46,20 @@ If a file with the same name is already stored at the location, it will be overw
 
 ### Options
 
-| Flag | Alternate flag            | Argument                | Description                                 |
-| ---- | ------------------------- | ----------------------- | ------------------------------------------- |
-| -h   | --help                    |                         | Display this usage message                  |
-| -c   | --config                  | <file>                  | Specify config file location                |
-| -s   | --silence                 |                         | Run with no output (except errors)          |
-| -do  | --disable-overwrite       |                         | Disable overwriting if image already exists |
-| -df  | --disable-folder-creation |                         | Disable creating folder if it doesn't exit  |
-| -l   | --create-ldpi             |                         | Generate LDPI image                         |
-| -e   | --exclude                 | <density1,density2,...> |
-|      | --xxhdpi                  | <folder>                | Change folder name to place XXHDPI image in |
-|      | --xhdpi                   | <folder>                | Change folder name to place XHDPI image in  |
-|      | --hdpi                    | <folder>                | Change folder name to place HDPI image in   |
-|      | --mdpi                    | <folder>                | Change folder name to place MDPI image in   |
-|      | --ldpi                    | <folder>                | Change folder name to place LDPI image in   |
+| Flag | Alternate flag            | Argument                  | Description                                 |
+| ---- | ------------------------- | ------------------------- | ------------------------------------------- |
+| -h   | --help                    |                           | Display this usage message                  |
+| -c   | --config                  | \<file\>                  | Specify config file location                |
+| -s   | --silence                 |                           | Run with no output (except errors)          |
+| -do  | --disable-overwrite       |                           | Disable overwriting if image already exists |
+| -df  | --disable-folder-creation |                           | Disable creating folder if it doesn't exit  |
+| -l   | --create-ldpi             |                           | Generate LDPI image                         |
+| -e   | --exclude                 | \<density1,density2,...\> | Exclude densities from being resized        |
+|      | --xxhdpi                  | \<folder\>                | Change folder name to place XXHDPI image in |
+|      | --xhdpi                   | \<folder\>                | Change folder name to place XHDPI image in  |
+|      | --hdpi                    | \<folder\>                | Change folder name to place HDPI image in   |
+|      | --mdpi                    | \<folder\>                | Change folder name to place MDPI image in   |
+|      | --ldpi                    | \<folder\>                | Change folder name to place LDPI image in   |
 
 ###### Note:
 Default locations are:
