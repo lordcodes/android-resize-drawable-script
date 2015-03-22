@@ -179,14 +179,22 @@ convert_drawable() {
   fi
 }
 
-should_convert() {
-  local density
-  for density in "${EXCLUDES[@]}"; do 
-    if [[ "$density" == "$1" ]]; then
-      return 1
+array_contains() {
+  local item
+  for item in "${@:2}"; do 
+    if [[ "$item" == "$1" ]]; then
+      return 0
     fi
   done
-  return 0
+  return 1
+}
+
+should_convert() {
+  if array_contains "$1" "${EXCLUDES[@]}"; then
+    return 1
+  else
+    return 0
+  fi
 }
 
 perform_conversion() {
@@ -305,47 +313,78 @@ convert_files() {
   done
 }
 
+option_arg_exists() {
+  if [[ -z $1 ]]; then
+    return 1
+  elif array_contains "$1" "${VALID_OPTIONS[@]}"; then
+    return 1
+  fi
+  return 0
+}
+
 
 # MAIN
+
+VALID_OPTIONS=("-h" "--help" "-s" "--silence" "-l" "--create-ldpi" "-e" "--exclude" "-c" "--config" "-do" "--disable-overwrite" "-df" "--disable-folder-creation" "--xxhdpi" "--xhdpi" "--hdpi" "--mdpi" "--ldpi")
 
 while [ $# -gt 0 ]; do
   if [ "$1" = "-h" ] || [ "$1" == "--help" ]; then
     usage
-    exit 1
   elif [ "$1" == "-s" ] || [ "$1" == "--silence" ]; then
     PRINT_OUTPUT=0
     shift
   elif [ "$1" == "-l" ] || [ "$1" == "--create-ldpi" ]; then
     CREATE_LDPI=1
     shift
-  elif [[ ! -z $2 ]] && ([ "$1" == "-e" ] || [ "$1" == "--exclude" ]); then
-    EXCLUDES=(${2//,/ })
-    shift 2
-  elif [[ ! -z $2 ]] && ([ "$1" == "-c" ] || [ "$1" == "--config" ]); then
-    CONFIG_FILE=$2
-    shift 2
+  elif  [ "$1" == "-e" ] || [ "$1" == "--exclude" ]; then
+    if option_arg_exists "$2"; then
+      EXCLUDES=(${2//,/ })
+      shift
+    fi
+    shift
+  elif [ "$1" == "-c" ] || [ "$1" == "--config" ]; then
+    if option_arg_exists "$2"; then
+      CONFIG_FILE=$2
+      shift
+    fi
+    shift
   elif [ "$1" == "-do" ] || [ "$1" == "--disable-overwrite" ]; then
     OVERWRITE=0
     shift
   elif [ "$1" == "-df" ] || [ "$1" == "--disable-folder-creation" ]; then
     FOLDER_CREATION=0
     shift
-  elif [[ ! -z $2 ]] && ([ "$1" == "--xxhdpi" ] && [[ ! -z $2 ]]); then
-    XXHDPI_FOLDER=$2
-    shift 2
-  elif [[ ! -z $2 ]] && ([ "$1" == "--xhdpi" ] && [[ ! -z $2 ]]); then
-    XHDPI_FOLDER=$2
-    shift 2
-  elif [[ ! -z $2 ]] && ([ "$1" == "--hdpi" ] && [[ ! -z $2 ]]); then
-    HDPI_FOLDER=$2
-    shift 2
-  elif [[ ! -z $2 ]] && ([ "$1" == "--mdpi" ] && [[ ! -z $2 ]]); then
-    MDPI_FOLDER=$2
-    shift 2
-  elif [[ ! -z $2 ]] && ([ "$1" == "--ldpi" ] && [[ ! -z $2 ]]); then
-    LDPI_FOLDER=$2
-    shift 2
-  elif [[ ! -z $1 ]] && [[ -z $FILENAME ]]; then
+  elif [ "$1" == "--xxhdpi" ] && [[ ! -z $2 ]]; then
+    if option_arg_exists "$2"; then
+      XXHDPI_FOLDER=$2
+      shift
+    fi
+    shift
+  elif [ "$1" == "--xhdpi" ] && [[ ! -z $2 ]]; then
+    if option_arg_exists "$2"; then
+      XHDPI_FOLDER=$2
+      shift
+    fi
+    shift
+  elif [ "$1" == "--hdpi" ] && [[ ! -z $2 ]]; then
+    if option_arg_exists "$2"; then
+      HDPI_FOLDER=$2
+      shift
+    fi
+    shift
+  elif [ "$1" == "--mdpi" ] && [[ ! -z $2 ]]; then
+    if option_arg_exists "$2"; then
+      MDPI_FOLDER=$2
+      shift
+    fi
+    shift
+  elif [ "$1" == "--ldpi" ] && [[ ! -z $2 ]]; then
+    if option_arg_exists "$2"; then
+      LDPI_FOLDER=$2
+      shift
+    fi
+    shift
+  elif [[ -z $FILENAME ]]; then
     FILENAMES=(${1//,/ })
     shift
   else
