@@ -26,6 +26,7 @@
 ##
 ##   -h, --help                               Display this usage message
 ##   -s, --silence                            Run with no output (except errors)
+##   -f, --file <file1,file2,...>             Specify file to convert, can be used multiple times
 ##   -c, --config <file>                      Specify config file location
 ##   -do, --disable-overwrite                 Disable overwriting if image with that name already exists
 ##   -df, --disable-folder-creation           Disable creating folder if it doesn't exit
@@ -75,16 +76,6 @@ set_ldpi_folder() {
 }
 
 handle_filename() {
-  if [[ -z $FILENAME ]]; then
-    echo "
-  No file to resize was provided.
-
-  Run with -h or --help flags to print usage description
-  "
-
-    exit 1
-  fi
-
   FILE=`basename $FILENAME`
   FILEPATH=`dirname $FILENAME`
   FOLDER=`basename $FILEPATH`
@@ -132,7 +123,7 @@ handle_conversion_ratio() {
     BASE_RATIO=MDPI_RATIO
   else
     echo "
-  File in an invalid folder was specified.
+  $FILE is in an invalid folder.
 
   PLease provide a file that is inside a folder with one of the following specifiers:
 
@@ -146,8 +137,9 @@ handle_conversion_ratio() {
 
   E.g. drawable-xxhdpi
   "
-    exit 1
+    return 1
   fi
+  return 0
 }
 
 print_output() {
@@ -299,6 +291,16 @@ handle_defaults() {
 }
 
 convert_files() {
+  if [[ -z $FILENAMES ]]; then
+    echo "
+No file to resize was provided.
+
+Run with -h or --help flags to print usage description
+"
+
+    exit 1
+  fi
+
   print_output "STARTING all images"
 
   local nextFile
@@ -308,8 +310,10 @@ convert_files() {
     print_output "--- STARTED $FILENAME ---"
 
     handle_filename
-    handle_conversion_ratio
-    perform_conversion
+
+    if handle_conversion_ratio; then
+      perform_conversion
+    fi
 
     print_output "--- FINISHED $FILENAME ---"
   done
@@ -324,6 +328,11 @@ option_arg_exists() {
     return 1
   fi
   return 0
+}
+
+parse_filenames() { 
+  FILENAMES=(${1//,/ })
+  shift
 }
 
 
@@ -385,6 +394,12 @@ while [ $# -gt 0 ]; do
   elif [ "$1" == "--ldpi" ] && [[ ! -z $2 ]]; then
     if option_arg_exists "$2"; then
       LDPI_FOLDER=$2
+      shift
+    fi
+    shift
+  elif [ "$1" == "-f" ] || [ "$1" == "--file" ]; then
+    if option_arg_exists "$2"; then
+      FILENAMES=($FILENAMES ${2//,/ })
       shift
     fi
     shift

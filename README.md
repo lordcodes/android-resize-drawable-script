@@ -24,15 +24,37 @@ The convert program is used to perform the image resizing. It can be downloaded 
 
 E.g. `resize-drawable drawable-xxxhdpi/image.png`
 
+`resize-drawable -do -f drawable-xxxhdpi/image.png -s`
+
 You can also provide a list of images to resize.
 
 E.g. `resize-drawable drawable-xxxhdpi/image.png,drawable-xxhdpi/another.png`
 
 ###### Note:
-If the file cannot be executed you may need to run `chmod +x resize.drawable`.
+If the script cannot be executed you may need to run `chmod +x resize-drawable`.
 
-### Filename:
-Path to an image file, that is stored within a folder containing a density specifer. The other resolutions will be placed into folders alongside it.
+### Options
+
+| Flag | Alternate flag            | Argument                  | Description                                         |
+| ---- | ------------------------- | ------------------------- | --------------------------------------------------- |
+| -h   | --help                    |                           | Display this usage message                          |
+| -c   | --config                  | \<file\>                  | Specify config file location                        |
+| -s   | --silence                 |                           | Run with no output (except errors)                  |
+| -f   | --file                    | \<file1,file2,...\>       | Specify file to convert, can be used multiple times |
+| -do  | --disable-overwrite       |                           | Disable overwriting if image already exists         |
+| -df  | --disable-folder-creation |                           | Disable creating folder if it doesn't exit          |
+| -l   | --create-ldpi             |                           | Generate LDPI image                                 |
+| -e   | --exclude                 | \<density1,density2,...\> | Exclude densities from being resized                |
+|      | --xxhdpi                  | \<folder\>                | Change folder name to place XXHDPI image in         |
+|      | --xhdpi                   | \<folder\>                | Change folder name to place XHDPI image in          |
+|      | --hdpi                    | \<folder\>                | Change folder name to place HDPI image in           |
+|      | --mdpi                    | \<folder\>                | Change folder name to place MDPI image in           |
+|      | --ldpi                    | \<folder\>                | Change folder name to place LDPI image in           |
+
+### File:
+You can provide the filepath of a single image, or a comma-separated list of images to resize. Also, using the `-f` or `--file` option, you can provide the filepath of images to convert. If the file option is used multiple times, all of the images specified will be resized.
+
+Each image specified must be stored within a folder containing a density specifier. The other resolutions will be placed into folders alongside it.
 
 E.g. If `/home/project/drawable-xxxhdpi/image.png` was provided, images would be placed at:
 
@@ -50,23 +72,6 @@ If a file with the same name is already stored at the location, it will be overw
 
 ###### Note:
 If a folder doesn't exist to place one of the image sizes in, it will be created. You can use the `-df` or `--disable-folder-creation` flag to instead skip that size.
-
-### Options
-
-| Flag | Alternate flag            | Argument                  | Description                                 |
-| ---- | ------------------------- | ------------------------- | ------------------------------------------- |
-| -h   | --help                    |                           | Display this usage message                  |
-| -c   | --config                  | \<file\>                  | Specify config file location                |
-| -s   | --silence                 |                           | Run with no output (except errors)          |
-| -do  | --disable-overwrite       |                           | Disable overwriting if image already exists |
-| -df  | --disable-folder-creation |                           | Disable creating folder if it doesn't exit  |
-| -l   | --create-ldpi             |                           | Generate LDPI image                         |
-| -e   | --exclude                 | \<density1,density2,...\> | Exclude densities from being resized        |
-|      | --xxhdpi                  | \<folder\>                | Change folder name to place XXHDPI image in |
-|      | --xhdpi                   | \<folder\>                | Change folder name to place XHDPI image in  |
-|      | --hdpi                    | \<folder\>                | Change folder name to place HDPI image in   |
-|      | --mdpi                    | \<folder\>                | Change folder name to place MDPI image in   |
-|      | --ldpi                    | \<folder\>                | Change folder name to place LDPI image in   |
 
 ###### Note:
 Default locations are:
