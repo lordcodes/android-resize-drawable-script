@@ -299,6 +299,8 @@ handle_defaults() {
 }
 
 convert_files() {
+  print_output "STARTING all images"
+
   local nextFile
   for nextFile in "${FILENAMES[@]}"; do 
     FILENAME=$nextFile
@@ -311,6 +313,8 @@ convert_files() {
 
     print_output "--- FINISHED $FILENAME ---"
   done
+
+  print_output "FINISHED all images"
 }
 
 option_arg_exists() {
@@ -384,7 +388,7 @@ while [ $# -gt 0 ]; do
       shift
     fi
     shift
-  elif [[ -z $FILENAME ]]; then
+  elif [[ -z $FILENAMES ]]; then
     FILENAMES=(${1//,/ })
     shift
   else
@@ -395,7 +399,5 @@ done
 handle_config
 handle_defaults
 convert_files
-
-print_output "FINISHED all images"
 
 exit 0
