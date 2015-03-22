@@ -2,6 +2,9 @@
 
 `resize-drawable` is a shell script that can save you time by converting Android drawables into lower resolution versions.
 
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VNDYLUZK5AYV4"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif"/></a>
+
 ## Requirements
 
 - Mac or Linux (Windows coming soon)
@@ -20,6 +23,9 @@ The convert program is used to perform the image resizing. It can be downloaded 
 `resize-drawable [options] FILENAME`
 
 E.g. `resize-drawable drawable-xxxhdpi/image.png`
+
+###### Note:
+If the file cannot be executed you may need to run `chmod +x resize.drawable`.
 
 ### Filename:
 Path to an image file, that is stored within a folder containing a density specifer. The other resolutions will be placed into folders alongside it.
@@ -40,17 +46,19 @@ If a file with the same name is already stored at the location, it will be overw
 
 ### Options
 
-| Flag | Alternate version  | Description                                 |
-| ---- | ------------------ | ------------------------------------------- |
-| -h   | --help             | Display this usage message                  |
-| -s   | --silence          | Run with no output (except errors)          |
-| -c   | --config           | Specify config file location                |
-| -l   | --create-ldpi      | Generate LDPI image                         |
-|      | --xxhdpi           | Change folder name to place XXHDPI image in |
-|      | --xhdpi            | Change folder name to place XHDPI image in  |
-|      | --hdpi             | Change folder name to place HDPI image in   |
-|      | --mdpi             | Change folder name to place MDPI image in   |
-|      | --ldpi             | Change folder name to place LDPI image in   |
+| Flag | Alternate version         | Description                                 |
+| ---- | ------------------------- | ------------------------------------------- |
+| -h   | --help                    | Display this usage message                  |
+| -c   | --config                  | Specify config file location                |
+| -s   | --silence                 | Run with no output (except errors)          |
+| -do  | --disable-overwrite       | Disable overwriting if image already exists |
+| -df  | --disable-folder-creation | Disable creating folder if it doesn't exit  |
+| -l   | --create-ldpi             | Generate LDPI image                         |
+|      | --xxhdpi                  | Change folder name to place XXHDPI image in |
+|      | --xhdpi                   | Change folder name to place XHDPI image in  |
+|      | --hdpi                    | Change folder name to place HDPI image in   |
+|      | --mdpi                    | Change folder name to place MDPI image in   |
+|      | --ldpi                    | Change folder name to place LDPI image in   |
 
 ###### Note:
 Default locations are:
@@ -65,11 +73,10 @@ Default locations are:
 The various configuration options can also be provided through a config file. A default config file is included alongside the script.
 
 ```
+CONFIG_PRINT_OUTPUT=1
 CONFIG_CREATE_LDPI=0
-
-# Set custom folder names below
-# E.g. CONFIG_XXHDPI_FOLDER=xxhdpi_location
-
+CONFIG_OVERWRITE=1
+CONFIG_FOLDER_CREATION=1
 CONFIG_XXHDPI_FOLDER=
 CONFIG_XHDPI_FOLDER=
 CONFIG_HDPI_FOLDER=
@@ -78,3 +85,12 @@ CONFIG_LDPI_FOLDER=
 ```
 
 If a command-line argument is provided for the same setting, then it will override the value in the config file. This allows you to specify your default configuration and alter settings whenever you need to through command-line arguments.
+
+## Feedback
+
+If you notice any bugs or want to suggest any improvements, please create an issue. All feedback is welcome!
+
+If you have found the script useful and it has saved you some time, please don't hesitate to donate and support development.
+
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VNDYLUZK5AYV4"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif"/></a>
+
