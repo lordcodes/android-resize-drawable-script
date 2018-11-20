@@ -1,9 +1,10 @@
 # Android Drawable Resizer
 
+NOTE - No longer actively developed. The script is provided as-is and will no longer be worked on or supported. It was created out of a need to resize drawables quickly and easily. More recent versions of Android Studio and the move towards vector drawables for many assets, this script should no longer be needed.
+
+---
+
 `resize-drawable` is a shell script that can save you time by converting Android drawables into lower resolution versions.
-
-
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VNDYLUZK5AYV4"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif"/></a>
 
 ## Requirements
 
@@ -87,11 +88,6 @@ The various configuration options can also be provided through a config file. A 
 
 If a command-line argument is provided for the same setting, then it will override the value in the config file. This allows you to specify your default configuration and alter settings whenever you need to through command-line arguments.
 
-## Feedback
+## Author
 
-If you notice any bugs or want to suggest any improvements, please create an issue. All feedback is welcome!
-
-If you have found the script useful and it has saved you some time, please don't hesitate to donate and support development.
-
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VNDYLUZK5AYV4"><img src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif"/></a>
-
+Andrew Lord [@lordcodes](https://twitter.com/@lordcodes)
