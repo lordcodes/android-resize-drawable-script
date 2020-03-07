@@ -8,7 +8,7 @@ NOTE - No longer actively developed. The script is provided as-is and will no lo
 
 ## Requirements
 
-- Mac or Linux (Windows coming soon)
+- Mac or Linux
 - Shell
 - [ImageMagick](http://www.imagemagick.org/script/binary-releases.php)
 
